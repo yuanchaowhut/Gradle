@@ -1,0 +1,80 @@
+总连接
+链接：https://pan.baidu.com/s/1AG_8Y6lmF2rKKDqZdRE6tQ 
+提取码：9tp8 
+
+
+lsn1_介绍
+链接：http://pan.baidu.com/s/1c2IRqr2 密码：8q9g
+
+lsn2_Groovy字符串与循环
+链接：http://pan.baidu.com/s/1jHUAjSM 密码：tevh
+
+lsn3_Groovy集合
+链接：http://pan.baidu.com/s/1qYfntJu 密码：4h19
+
+lsn4_Groovy闭包
+链接：http://pan.baidu.com/s/1kULeHDH 密码：x5my
+
+lsn5_Groovy方法
+链接：http://pan.baidu.com/s/1pKVfZtD 密码：r6g8
+
+lsn6_Groovy扩展与脚本
+链接：http://pan.baidu.com/s/1nuPe1c9 密码：554z
+
+lsn7_Groovy动态语言
+链接：http://pan.baidu.com/s/1kVtAEG3 密码：yopx
+
+lsn8_元编程(方法拦截)
+链接：http://pan.baidu.com/s/1pL3BP95 密码：hqjy
+
+lsn9_元编程(方法注入)
+链接：http://pan.baidu.com/s/1i5Jxgwt 密码：7cf2
+
+lsn10_元编程(方法合成与委托)
+链接：http://pan.baidu.com/s/1qYbjzxa 密码：rs23
+
+lsn11_运行时元编程
+链接：http://pan.baidu.com/s/1slwMm4X 密码：z51a
+
+lsn12_Json、xml、swing与生成器
+链接：http://pan.baidu.com/s/1dFvOJeD 密码：nxpn
+
+lsn13_Android Gradle配置
+链接：http://pan.baidu.com/s/1slmCMhJ 密码：ox1c
+
+lsn14_Android Gradle配置
+链接：https://pan.baidu.com/s/1eSaNXsu 密码：tihu
+
+lsn15_Android Gradle配置
+链接：http://pan.baidu.com/s/1bMJaQM 密码：v2dp
+
+lsn16_Android Gradle配置
+链接：http://pan.baidu.com/s/1skAJe3r 密码：6po1
+
+lsn17_Android Gradle配置
+链接：http://pan.baidu.com/s/1kULKEhT 密码：a269
+
+lsn18_依赖管理
+链接：http://pan.baidu.com/s/1pL6tDEz 密码：3fum
+
+lsn19_扩展属性、任务与构建周期
+链接：http://pan.baidu.com/s/1bpD3IR9 密码：bs9l
+
+lsn20_自定义插件与上传本地仓库
+链接：http://pan.baidu.com/s/1boFpwB1 密码：dj78
+
+lsn21_上传远程仓库
+链接：http://pan.baidu.com/s/1pLui0hP 密码：t9k1
+
+lsn22_Protobuf编译插件
+链接：http://pan.baidu.com/s/1bJvj0E 密码：m4nf
+
+lsn23_图片优化插件
+链接：http://pan.baidu.com/s/1eSH1vcY 密码：63ud
+
+lsn24_Dex加密插件
+链接：http://pan.baidu.com/s/1skF2KSd 密码：r9ds
+
+lsn25_多渠道打包插件
+链接：http://pan.baidu.com/s/1cJBy6E 密码：h1s8
+

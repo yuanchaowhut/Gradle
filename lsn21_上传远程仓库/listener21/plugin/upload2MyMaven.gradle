@@ -1,0 +1,37 @@
+//私服下载地址:http://www.sonatype.org/nexus/
+
+apply plugin: 'maven-publish'
+
+
+
+publishing{
+    publications{
+        plugin(MavenPublication){
+            from components.java
+            artifactId 'test'
+            artifact sourcesJar //添加上传的工件
+            artifact docJar
+            //配置pom文件
+            pom.withXml{
+                def root = asNode()
+                def licensesNode = root.appendNode('licenses').appendNode('license')
+                licensesNode.appendNode('name','Apache License, Version 2.0')
+                licensesNode.appendNode('url','https://www.apache.org/licenses/LICENSE-2.0.txt')
+                licensesNode.appendNode('distribution','repo')
+                licensesNode.appendNode('comments','A business-friendly OSS license')
+            }
+        }
+    }
+    //配置上传的仓库
+    repositories{
+        maven{
+            name 'haha'
+            url 'http://localhost:8081/repository/test/'
+            //身份验证(maven私服的默认用户名密码)
+            credentials{
+                username = 'admin'
+                password = 'admin123'
+            }
+        }
+    }
+}

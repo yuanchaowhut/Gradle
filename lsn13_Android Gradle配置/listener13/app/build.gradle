@@ -1,0 +1,138 @@
+//引入插件
+apply plugin: 'com.android.application'
+//配置android插件
+android {
+    //编译使用的sdk版本
+    compileSdkVersion 25
+    // buildtools版本
+    buildToolsVersion "25.0.3"
+    //默认 产品风味
+    defaultConfig {
+        //包名 执行构建时会替换调manifest当中的 package节点
+        //原package节点会拼接 给name节点以‘.’开头的 组件
+        applicationId "com.dongnao.haha"
+        //最小支持的sdk版本
+        minSdkVersion 14
+        //target版本
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationIdSuffix '.default'
+//        setManifestPlaceholders([:])
+        //manifest占位符
+        manifestPlaceholders = [name:'1']
+        //分包 65k
+        multiDexEnabled true
+        //分到主dex 类的配置
+        //每一行表示一个分到主dex的类   com/a/b/C.class
+//        multiDexKeepFile
+        //使用 Proguard规则来定义分到主dex的类
+        //-keep class com.a.b.C
+        //-keep class com.a.b.**{*;}
+//        multiDexKeepProguard
+
+        //构建ndk的配置
+//        externalNativeBuild {
+//            //android.mk
+//            ndkBuild {
+//
+//            }
+//            //cmake
+//            cmake{
+//
+//            }
+//        }
+
+        //支持lambda 部分特性
+//        jackOptions{
+//            enabled true
+//        }
+
+
+//        proguardFiles
+        //定义打包的cpu架构支持
+        ndk{
+//            abiFilters 'armeabi-v7a'
+        }
+
+        //dimension
+        // vectorDrawables
+        //
+        vectorDrawables{
+            //开启支持后 不会再生成png
+            //如果关闭 并且 minsdk 小于21 则 会根据generatedDensities生成png
+            useSupportLibrary = true
+            generatedDensities = ['mdpi']
+        }
+        //BuildConfig
+        buildConfigField('String','h','"12adasdsa"')
+        //res/value
+        resValue('string','hh','asdad')
+//        dimension  维度
+    }
+
+    //创建两个维度
+    flavorDimensions('product','abi')
+    //创建产品风味
+    productFlavors {
+        free{
+            dimension 'product'
+            manifestPlaceholders = [name:'2']
+            applicationIdSuffix '.free'
+        }
+
+        pro{
+            dimension 'product'
+        }
+        armeabiV7a{
+            dimension 'abi'
+        }
+        x86{
+            dimension 'abi'
+        }
+    }
+    //过滤变体
+//    variantFilter {
+//        variant->
+//            variant.flavors.each{
+//                if (it.name.contains('pro')){
+//                    setIgnore(true)
+//                }
+//            }
+//    }
+
+    //指定ndk的构建文件
+//    externalNativeBuild{
+//        ndkBuild {
+//            path 'Android.mk'
+//        }
+//        cmake{
+//            path 'CMakeLists.txt'
+//        }
+//    }
+
+    //构建类型
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+configurations{
+    freeArmeabiV7aDebugCompile{}
+}
+
+//依赖配置
+dependencies {
+    freeArmeabiV7aDebugCompile project(':lib:library')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}

@@ -1,0 +1,47 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile gradleApi()
+    compile localGroovy()
+}
+
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+group 'com.dongnao.test'
+version '3.0'
+
+
+apply from: 'upload2MyMaven.gradle'
+
+//源代码打包任务
+task sourcesJar(type :Jar){
+    baseName 'test'
+    classifier 'sources' //分类器 区分其他jar包
+    from sourceSets.main.allSource
+}
+
+task docJar(type :Jar,dependsOn:[javadoc,groovydoc]){
+    baseName 'test'
+    classifier 'doc' //分类器 区分其他jar包
+    from javadoc.destinationDir,groovydoc.destinationDir
+}
+//配置 工程工件 jar产出的配置
+artifacts{
+    archives sourcesJar
+    archives docJar
+}
+
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+

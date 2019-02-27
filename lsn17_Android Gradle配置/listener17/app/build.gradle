@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.dongnao.listener17"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    //1、pickFirsts 当出现重复文件 会使用第一个匹配的文件打包进入apk
+    //2、merges 当出现重复文件 合并重复的文件打包进入apk
+    //3、excludes 打包的时候排除匹配的文件
+    //打包配置
+    packagingOptions{
+//        pickFirsts = ['META-INF/LICENSE'] // Not really needed because the default is empty.
+//        merge 'META-INF/LICENSE'    // Not really needed because the default is empty.
+        exclude 'META-INF/LICENSE'
+    }
+
+    splits{
+//        abi {
+//            enable true
+//            默认会把所有cpu架构的apk都打包出来，所以这里可以重置一下。
+//            reset().  
+//            include 'x86','armeabi-v7a'
+//            全量包，既包含了x86也包含armeabi-v7a的动态库
+//            universalApk true
+//        }
+//        density{
+//            enable true
+//            exclude('xhdpi')
+//        }
+    }
+
+    testOptions{
+        animationsDisabled true
+
+        unitTests.all {
+            systemProperty 'some', 'abc'
+            testLogging.showStandardStreams = true
+            exclude 'com/dongnao/listener17/test'
+        }
+    }
+
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    compile files('libs/ftpserver-core-1.0.6.jar')
+    compile files('libs/log4j-1.2.14.jar')
+    //引用library中release变体
+    compile project(path:':library',configuration:'release')
+}

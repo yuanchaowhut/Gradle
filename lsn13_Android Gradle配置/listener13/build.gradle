@@ -1,0 +1,33 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+//project 顶层
+
+//org.gradle.api.Project
+
+//构建脚本的配置
+buildscript {
+    //仓库
+    repositories {
+        jcenter()
+//        maven {
+//            url 'https://wxxxx/xxx'
+//        }
+    }
+    //依赖
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+//配置子模块的共用行为
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+//clean 任务
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

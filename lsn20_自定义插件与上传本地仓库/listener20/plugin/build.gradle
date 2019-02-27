@@ -1,0 +1,29 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+//下面2个属性都是gradle的Project能够指定的。
+group 'com.dongnao.plugin'
+version '1.0'
+
+apply plugin: 'maven-publish'
+
+publishing{
+    publications{
+	//“plugin”是随便命名的，但括号里的MavenPublication是固定的。
+        plugin(MavenPublication){
+            from components.java
+	    //可以指定artifactId，否则默认就是工程名。
+            artifactId 'plugin'
+        }
+    }
+}
+

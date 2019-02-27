@@ -1,0 +1,41 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+bintray {
+    user = 'lance2017'
+    key = userkey
+    publications = ['plugin']
+    pkg {
+        repo = 'test_gradle' //需要上传的仓库名
+        name = 'test'  //上传的项目名
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://xxxx.git'
+        version {
+            desc = 'just test'
+            released  = new Date()
+            vcsTag = '1.0'
+            attributes = ['gradle-plugin': 'xxxxx']
+        }
+    }
+
+}
+
+
+publishing{
+    publications{
+        plugin(MavenPublication){
+            from components.java
+            artifactId 'test'
+            artifact sourcesJar //添加上传的工件
+            artifact docJar
+            //配置pom文件
+            pom.withXml{
+                def root = asNode()
+                def licensesNode = root.appendNode('licenses').appendNode('license')
+                licensesNode.appendNode('name','Apache License, Version 2.0')
+                licensesNode.appendNode('url','https://www.apache.org/licenses/LICENSE-2.0.txt')
+                licensesNode.appendNode('distribution','repo')
+                licensesNode.appendNode('comments','A business-friendly OSS license')
+            }
+        }
+    }
+}

@@ -1,0 +1,207 @@
+import org.gradle.api.tasks.Optional
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.dongnao.listener19"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}
+
+//扩展属性
+
+//如果只在当前项目使用则使用def定义并且只能定义在当前gradle文件.
+def prop = 'prop-value'
+
+//如果要对多项目工程的所有子项目可见，则应使用ext声明变量，并且声明在根目录下的gradle文件。引用时使用:rootProject.ext.变量名 的方式.
+//ext {
+//    prop1 = 'prop1-value'
+//}
+
+ext.prop3 = '33'  //等价于：project.ext.prop3
+android.ext.prop2 = 'prop2-value'
+//任何对象都能够设置ext
+
+
+task show << {
+    println prop
+    println rootProject.ext.prop1
+    println android.ext.prop2
+
+    println prop3
+    println project.ext.prop3
+    println ext.prop4
+
+    println ext
+    println project.ext
+    println rootProject.ext
+
+    println gradle_prop1  //定义在了gradle.properties文件里边
+    println gradle_prop2
+}
+show.ext.prop4 = '44'
+
+//任务
+//task A << {
+//
+//}
+
+//task A {
+//    doLast {
+//        println 'doLast'
+//    }
+//    doFirst {
+//        println 'doFirst'
+//    }
+//    doLast {
+//        println 'doLast1'
+//    }
+//    doLast {
+//        println 'doLast2'
+//    }
+//}
+//
+//A.doLast {
+//
+//}
+
+//任务执行周期
+//task A {
+//    println 'doing block'
+//    doLast {
+//        println 'doLast'
+//    }
+//}
+
+//任务执行顺序
+task A << {
+    println 'A'
+}
+
+
+task B << {
+    println 'B'
+}
+
+task MyTask(dependsOn: [B, A]) << {
+    println 'mytask'
+}
+
+//依赖 执行A任务肯定执行B任务
+//A.dependsOn B
+//A必须在B后面执行
+//A.mustRunAfter B
+//A.shouldRunAfter B 并行编译下 不一定A在B后面执行
+//释放资源 清理缓存
+//task finalized << {
+//    println 'finalized'
+//}
+//A.finalizedBy finalized
+//B.dependsOn A
+
+class IncrementTask extends DefaultTask {
+
+//    @Input
+//    @Optional
+    String filePath //input 可以是n个文件 目录或者属性
+
+//    @OutputFile
+    File file
+
+    IncrementTask() {
+        group '自定义任务'
+        description '任务描述'
+        outputs.upToDateWhen { false }
+    }
+
+    @TaskAction
+    void run() {
+        println 'IncrementTask'
+        println inputs.files.first()
+        println inputs.files.singleFile
+    }
+}
+
+//tasks.create('increment', IncrementTask)
+
+task increment(type: IncrementTask) {
+    filePath = 'path/to/somefile1'
+    file = file('path.txt')
+    inputs.file file('text')
+}
+
+//task zip(type:Zip){
+//    archiveName 'my.zip'
+//    destinationDir file("${buildDir}/zip")
+//    from "${buildDir}/outputs/logs"
+//}
+
+//在分析完成gradle 之后执行
+afterEvaluate {
+    task zip(type: Zip) {
+        archiveName 'my.zip'
+        destinationDir file("${buildDir}/zip")
+        println tasks.getByName('assembleDebug')
+        from tasks.getByName('packageDebug').outputs.files
+    }
+}
+
+// 1、分析构建脚本 生成settings与project类
+// 2、进行初始化配置
+// 3、执行任务
+
+//对gradle构建生命周期 hook
+
+//在分析完成gradle 之后执行
+afterEvaluate {
+
+}
+
+//对于引入了android插件的工程无效
+//beforeEvaluate {
+//
+//}
+
+//gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
+//    @Override
+//    void beforeEvaluate(Project project) {
+//
+//    }
+//
+//    @Override
+//    void afterEvaluate(Project project, ProjectState state) {
+//
+//    }
+//})
+
+//gradle 任务执行图
+//gradle.addListener(new TaskExecutionGraphListener(){
+//
+//    @Override
+//    void graphPopulated(TaskExecutionGraph graph) {
+//        println graph.allTasks
+//    }
+//})

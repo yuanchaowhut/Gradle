@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.dongnao.listener16"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            multiDexEnabled true
+            multiDexKeepFile file('keep_in_main.txt')
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    //dx 配置
+    dexOptions {
+        //最小化生成main dex
+        //--minimal-main-dex
+        //--set-max-idx_number 单个dex 最大id数
+        additionalParameters '--minimal-main-dex','--set-max-idx-number=5000'
+        //大模式 dex
+        jumboMode true
+    }
+
+    //lint工具配置
+    //帮助发现并纠正代码结构质量
+    lintOptions {
+        //发现错误 停止构建
+        abortOnError true
+//        error('UnusedResources')
+//        check 'UnusedResources' //检查指定id
+        checkAllWarnings true //检查所有警告
+        checkReleaseBuilds true //在release 是否检查fatal错误
+//        enable 'UnusedResources'  //开启指定id的检查
+//        disable               //关闭
+//        htmlOutput        //html输出文件
+//        htmlReport        //是否生成htmloutput
+//        ignoreWarnings true    //是否忽略警告只报告错误
+//        noLines       //是否在生成错误时需要包含行数
+        quiet true         //在终端中关闭分析消息输出
+        warningsAsErrors true //将警告变成错误
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}

@@ -1,0 +1,106 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    testCompile 'junit:junit:4.12'
+}
+
+
+//
+
+group 'com.dongnao.test'
+version '2.0'
+
+
+//源代码打包任务
+task sourcesJar(type :Jar){
+    classifier 'sources' //分类器 区分其他jar包
+    from android.sourceSets.main.java.srcDirs
+}
+//创建文档生成任务
+task javadoc(type:Javadoc){
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task docJar(type :Jar,dependsOn:javadoc){
+    classifier 'doc' //分类器 区分其他jar包
+    from javadoc.destinationDir
+}
+//配置 工程工件 jar产出的配置
+artifacts{
+    archives sourcesJar
+    archives docJar
+}
+
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+bintray {
+    user = 'lance2017'
+    key = userkey
+    configurations = ['archives']
+    pkg {
+        repo = 'test_gradle' //需要上传的仓库名
+        name = 'androidtest'  //上传的项目名
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://xxxx.git'
+        version {
+            desc = 'just test'
+            released  = new Date()
+            vcsTag = '1.0'
+            attributes = ['gradle-plugin': 'xxxxx']
+        }
+    }
+
+}
+
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }
+}

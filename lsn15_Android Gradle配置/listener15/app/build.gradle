@@ -1,0 +1,89 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.dongnao.listener15"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    productFlavors {
+        hello {
+            multiDexEnabled false
+        }
+    }
+
+    //资源合并(同名文件优先级):
+    //Variant(helloDebug) > buildType(Debug) > flavor(hello) > (main > aapt -S) > dependencies
+    //aapt 编译资源文件
+    aaptOptions {
+        //aapt执行的额外参数
+        //--rename-manifest-package 重命名清单文件中的包名，overlay 重叠包
+        additionalParameters '--rename-manifest-package', 'com.dongnao.haha', '-S', 'src/main/res2', '--auto-add-overlay'
+        //对png进行优化检查(true检查，false不检查,默认true),对于手动修改.jpg后缀为.png的会检查出报错.
+        cruncherEnabled false
+        //对res中的资源进行排除(但对asset目录无影响)
+        ignoreAssets '*.jpg'
+        //哪些文件不进行压缩 aapt l -v
+        noCompress '.bat'
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs 'src/main/res', 'src/main/myres'
+//            aidl.srcDirs ''
+//            assets
+            //compileConfigurationName //compile 编译+打包的依赖配置组的名字
+//            packageConfigurationName //apk
+//            providedConfigurationName //provided
+//            java
+//            jni
+//            jniLibs
+//            manifest.srcFile
+//            name
+//            renderscript
+//            res
+//            resources
+        }
+
+        hello{
+
+        }
+    }
+
+    adbOptions {
+        //apk安装时候的可选参数
+//        installOptions
+        //adb执行超时时间
+//        timeOutInMs
+    }
+    compileOptions {
+        //java源文件编码
+        encoding  'UTF-8'
+        //java编译是否使用gradle新的增量模式
+        incremental true
+        sourceCompatibility  JavaVersion.VERSION_1_7
+        targetCompatibility  JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}

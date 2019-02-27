@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.dongnao.listener18"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories{
+    flatDir{
+        dir('libs')
+    }
+}
+
+//compile 编译(classpath)加打包apk
+//apk     打包 不参与编译
+//provided 只编译 不打包
+//当引入2个相同的库(group,name完全一样)时，默认使用最新版本.
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+
+    //引入一个库的4种方式，但不推荐使用后2种动态方式。
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile group: 'com.android.support.constraint', name: 'constraint-layout', version: '1.0.2'
+
+//    compile group: 'com.android.support.constraint', name: 'constraint-layout', version: '1.+'
+//
+//    compile group: 'com.android.support.constraint', name: 'constraint-layout', version: 'latest.integration'
+
+//    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.facebook.fresco:fresco:0.14.0', {
+//        transitive false   //表示不传递依赖，但可能破坏依赖的完整性，推荐使用 exculude。
+        exclude(group: 'com.android.support', module: 'support-core-utils')
+    }
+
+    //引入jar包
+    compile files('protobuf-java-2.6.1-lite.jar')
+    //引入library
+    compile project(':library')
+    //引入aar文件
+    compile name:'support-v4-22.0.0',ext:'aar'
+}

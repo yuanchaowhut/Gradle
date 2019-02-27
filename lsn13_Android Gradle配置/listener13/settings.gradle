@@ -1,0 +1,7 @@
+//管理project的子模块
+//org.gradle.api.initialization.Settings.java
+
+//引入子模块
+include ':app', ':lib:library'
+
+println "$rootDir"
